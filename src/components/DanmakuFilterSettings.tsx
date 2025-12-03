@@ -10,12 +10,14 @@ interface DanmakuFilterSettingsProps {
   isOpen: boolean;
   onClose: () => void;
   onConfigUpdate?: (config: DanmakuFilterConfig) => void;
+  onShowToast?: (message: string, type: 'success' | 'error' | 'info') => void;
 }
 
 export default function DanmakuFilterSettings({
   isOpen,
   onClose,
   onConfigUpdate,
+  onShowToast,
 }: DanmakuFilterSettingsProps) {
   const [config, setConfig] = useState<DanmakuFilterConfig>({ rules: [] });
   const [newKeyword, setNewKeyword] = useState('');
@@ -54,10 +56,18 @@ export default function DanmakuFilterSettings({
       if (onConfigUpdate) {
         onConfigUpdate(config);
       }
-      alert('保存成功！');
+      if (onShowToast) {
+        onShowToast('保存成功！', 'success');
+      }
+      // 延迟关闭面板，让用户看到toast
+      setTimeout(() => {
+        onClose();
+      }, 300);
     } catch (error) {
       console.error('保存弹幕过滤配置失败:', error);
-      alert('保存失败，请重试');
+      if (onShowToast) {
+        onShowToast('保存失败，请重试', 'error');
+      }
     } finally {
       setSaving(false);
     }
@@ -66,7 +76,9 @@ export default function DanmakuFilterSettings({
   // 添加规则
   const handleAddRule = () => {
     if (!newKeyword.trim()) {
-      alert('请输入关键字');
+      if (onShowToast) {
+        onShowToast('请输入关键字', 'info');
+      }
       return;
     }
 
@@ -105,7 +117,7 @@ export default function DanmakuFilterSettings({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/70">
       <div className="bg-gray-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
         {/* 头部 */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
