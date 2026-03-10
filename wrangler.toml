@@ -19,3 +19,8 @@ database_id = "e7e8ff64-8a55-45c5-9a29-91480866dfa6"
 [vars]
 NODE_ENV = "production"
 BUILD_TARGET = "cloudflare"
+
+# 启用 TVBOX 订阅功能
+ENABLE_TVBOX_SUBSCRIBE=true
+# 设置订阅访问 Token（请使用强密码）
+TVBOX_SUBSCRIBE_TOKEN=5558e998-ecc0-47ab-c01c-a447b8411232
