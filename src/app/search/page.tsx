@@ -372,11 +372,11 @@ function SearchPageClient() {
     const yearsSet = new Set<string>();
 
     searchResults.forEach((item) => {
-      if (item.source && item.source_name) {
+      if (item.source && item.source_name && item.source.trim() !== '' && item.source_name.trim() !== '') {
         sourcesSet.set(item.source, item.source_name);
       }
-      if (item.title) titlesSet.add(item.title);
-      if (item.year) yearsSet.add(item.year);
+      if (item.title && item.title.trim() !== '') titlesSet.add(item.title);
+      if (item.year && item.year.trim() !== '') yearsSet.add(item.year);
     });
 
     const sourceOptions: { label: string; value: string }[] = [
